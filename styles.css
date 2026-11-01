@@ -264,6 +264,8 @@ body.sub #shade { background: rgba(12, 17, 24, 0.72); }
 @media (max-width: 640px) {
   .chip { width: auto; }
   .chip-name { display: none; }
+  .emblem { width: min(220px, 60vw); }
+  .logo-h { margin-bottom: 22px; }
   .pop { width: 220px; }
   .tools { gap: 6px; }
   .tool { width: 34px; height: 34px; }
