@@ -58,7 +58,7 @@ window.PORTFOLIO = {
   email: "hello@christianfields.dev",
 
   // Link to a PDF (e.g. "resume.pdf" in this folder). Empty = "Download PDF" is hidden.
-  resumeUrl: "",
+resumeUrl: "resume.pdf",
 
   // Newest first. Each: { title, org, dates, place, points: [] }
   experience: [
