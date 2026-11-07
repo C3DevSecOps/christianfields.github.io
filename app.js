@@ -138,7 +138,7 @@
       </footer>`;
   }
 
-  let selected = 0;
+  let selected = 0, shownProject = 0;
   function listScreen({ heading, items, render, actions }) {
     selected = Math.min(selected, Math.max(0, items.length - 1));
     return `
@@ -187,10 +187,31 @@
       items: D.projects,
       render: (p, i) => `
         ${badge(initials(p.name), i)}
-        <div><div class="name">${esc(p.name)}</div><div class="desc">${esc(p.description)}</div>
+        <div><div class="name">${esc(p.name)}</div>${p.description ? `<div class="desc">${esc(p.description)}</div>` : ""}
         <div class="tags">${p.tags.map((t) => `<span>${esc(t)}</span>`).join("")}</div></div>`,
-      actions: (p) => `${ext("Open on GitHub", p.url)}${btn("Back", "#")}`,
+      actions: (p) => {
+        shownProject = selected;
+        const more = p.points?.length || p.images?.length;
+        return `${more ? btn("View Details", "#project") : ""}${p.url ? ext("Open on GitHub", p.url) : ""}${btn("Back", "#")}`;
+      },
     }),
+
+    // Detail page for the project last selected on the Projects screen.
+    project: () => {
+      const p = D.projects[shownProject];
+      const body = `
+        <article class="xp">
+          <div class="xp-when">About</div>
+          <div>
+            ${p.description ? `<p class="proj-desc">${esc(p.description)}</p>` : ""}
+            <div class="tags">${p.tags.map((t) => `<span>${esc(t)}</span>`).join("")}</div>
+            ${p.points?.length ? `<ul>${p.points.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}
+          </div>
+        </article>
+        ${p.images?.length ? `<div class="gallery">${p.images.map((im) => `
+          <a href="${esc(im.src)}" target="_blank" rel="noopener"><img src="${esc(im.src)}" alt="${esc(im.alt)}" loading="lazy"></a>`).join("")}</div>` : ""}`;
+      return page(p.name, body, `${p.url ? ext("Open on GitHub", p.url, "primary") : ""}${btn("Back", "#projects")}`);
+    },
 
     contact: () => {
       const items = [...D.links];
@@ -238,7 +259,7 @@
         ${Object.entries(D.skills).map(([k, v]) => labeled(k, chips(v))).join("")}
         ${D.education.length ? `<h3 class="cv-h">Education</h3>${D.education.map((e) => row(e.dates, "", e.school, "", [e.degree])).join("")}` : ""}
         <h3 class="cv-h">Projects</h3>
-        ${D.projects.map((p) => row("", "", p.name, "", [p.description])).join("")}`;
+        ${D.projects.map((p) => row("", "", p.name, "", p.description ? [p.description] : p.points || [])).join("")}`;
       return page("Resume", body, `
         ${D.resumeUrl ? ext("Download PDF", D.resumeUrl, "primary") : `<button class="btn" type="button" onclick="print()">Print</button>`}
         ${btn("Back", "#")}`);
@@ -280,7 +301,8 @@
   function route() {
     const key = location.hash.slice(1);
     const screen = screens[key] ? key : "";
-    if (screen !== route.current) selected = 0;
+    // Coming back from a project's detail page keeps that project selected.
+    if (screen !== route.current) selected = screen === "projects" && route.current === "project" ? shownProject : 0;
     route.current = screen;
     document.body.classList.toggle("sub", !!screen);
     render();

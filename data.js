@@ -29,7 +29,28 @@ window.PORTFOLIO = {
     "Programming & Scripting": ["PowerShell", "JavaScript", "HTML", "CSS", ".NET Framework", "Python"],
   },
 
+  // Each: { name, description?, tags, url?, points?, images? }. `points` or `images` add a "View Details" page.
   projects: [
+    {
+      name: "X&F Enterprises LLC",
+      tags: ["HTML", "CSS", "JavaScript", "UX/UI", "SEO", "Email Marketing"],
+      points: [
+        "Cultivated and sustained client relationships through regular communication, progress reporting, and handling any business relations.",
+        "Developed and maintained responsive, user-friendly websites using HTML, CSS, and JavaScript, integrating 3D models to enhance visual appeal and user experience.",
+        "Devised and implemented UX/UI designs with a focus on user-centric principles to elevate website usability and visual appeal.",
+        "Conducted website performance optimizations, leading to enhanced loading speeds and user experiences.",
+        "Conducted thorough keyword research and analysis to pinpoint opportunities for enhancing website visibility and driving increased traffic.",
+        "Stayed up to date on industry trends and best practices, sharing knowledge through tutorials and courses with both team members and clients.",
+        "Managed email marketing initiatives, from list management to content creation and performance tracking.",
+        "Conducted routine website maintenance tasks, including updates, backups, security checks, and bug fixes.",
+      ],
+      images: [
+        { src: "projects/xf/aimable-fitness.webp", alt: "Aimable Fitness: personal training site with a dark, bold hero" },
+        { src: "projects/xf/kbg-consulting.webp", alt: "KBG: business consulting site in navy and gold" },
+        { src: "projects/xf/spearpoint-fishing.webp", alt: "Spearpoint Fishing: fishing club site with an underwater marlin hero" },
+        { src: "projects/xf/durand-team.webp", alt: "The Durand Team: real estate site shown on phone and tablet" },
+      ],
+    },
     {
       name: "SIEM Home Lab with Wazuh",
       description:
